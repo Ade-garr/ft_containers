@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 16:08:48 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/10/22 17:51:26 by ade-garr         ###   ########.fr       */
+/*   Updated: 2021/10/22 19:21:26 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ namespace ft {
 		typedef const value_type&				reference;
 
 		// ----- ITERATOR TRAITS -----
-		vector_iterator() : v_it(NULL) {};
+		vector_iterator(pointer ptr = NULL) : v_it(NULL) {};
 		vector_iterator(vector_iterator const &cpy) {
 			*this = cpy;
 		}
@@ -58,7 +58,7 @@ namespace ft {
 			v_it++;
 			return (*this);
 		}
-		vector_iterator &operator++(int) {
+		vector_iterator operator++(int) {
 			vector_iterator tmp = *this;
 			v_it++;
 			return (tmp);
@@ -67,13 +67,53 @@ namespace ft {
 			v_it--;
 			return (*this);
 		}
-		vector_iterator &operator--(int) {
+		vector_iterator operator--(int) {
 			vector_iterator tmp = *this;
 			v_it--;
 			return (tmp);
 		}
-		vector_iterator &operator+(vector iterator const &rhs) {
-			return (v_it + );
+		vector_iterator operator+(difference_type n) {
+			return (vector_iterator(v_it + n));
+		}
+		friend vector_iterator operator+(difference_type n, vector_iterator const &rhs) { // a voir si friend a rajouter
+			return (vector_iterator(rhs.v_it + n));
+		}
+		vector_iterator operator-(difference_type n) {
+			return (vector_iterator(v_it - n));
+		}
+		difference_type operator-(vector_iterator const &rhs) {
+			return (v_it - rhs.v_it);	
+		}
+		bool operator<(vector_iterator const &rhs) {
+			if (v_it < rhs.v_it)
+				return (true);
+			return (false);
+		}
+		bool operator>(vector_iterator const &rhs) {
+			if (v_it > rhs.v_it)
+				return (true);
+			return (false);
+		}
+		bool operator<=(vector_iterator const &rhs) {
+			if (v_it <= rhs.v_it)
+				return (true);
+			return (false);
+		}
+		bool operator>=(vector_iterator const &rhs) {
+			if (v_it >= rhs.v_it)
+				return (true);
+			return (false);
+		}
+		vector_iterator &operator+=(difference_type n) {
+			v_it += n;
+			return (*this);
+		}
+		vector_iterator &operator-=(difference_type n) {
+			v_it -= n;
+			return (*this);
+		}
+		reference operator[](difference_type n) {
+			return (v_it[n]);
 		}
 
 		protected:
