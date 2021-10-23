@@ -6,7 +6,7 @@
 #    By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/12 10:29:31 by user42            #+#    #+#              #
-#    Updated: 2021/10/21 10:56:11 by ade-garr         ###   ########.fr        #
+#    Updated: 2021/10/23 11:51:57 by ade-garr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ CFLAGS	+= -Wextra
 CFLAGS	+= -Werror
 CFLAGS	+= -std=c++98
 
-HEADER += ${INCLUDES}
+HEADER += ${INCLUDES}vector_iterator.hpp
 
 all:		${NAME}
 
