@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 16:08:48 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/10/23 16:20:30 by ade-garr         ###   ########.fr       */
+/*   Updated: 2021/10/26 17:09:40 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ namespace ft {
 		typedef value_type*						pointer;
 		typedef value_type&						reference;
 
-		// ----- ITERATOR TRAITS -----
+		// ----- ITERATOR PROPERTIES -----
 		vector_iterator(pointer ptr = NULL) : v_it(ptr) {};
 		vector_iterator(vector_iterator const &cpy) {
 			*this = cpy;
@@ -137,7 +137,7 @@ namespace ft {
 		typedef const value_type*				pointer;
 		typedef const value_type&				reference;
 
-				// ----- ITERATOR TRAITS -----
+		// ----- ITERATOR PROPERTIES -----
 		vector_const_iterator(pointer ptr = NULL) : v_it(ptr) {};
 		vector_const_iterator(vector_const_iterator const &cpy) {
 			*this = cpy;
@@ -231,9 +231,6 @@ namespace ft {
 
 		pointer	v_it;
 	};
-
-	template< typename T >
-	class reverse_iterator {
 }
 
 #endif
