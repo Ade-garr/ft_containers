@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 11:02:38 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/10/28 20:14:16 by ade-garr         ###   ########.fr       */
+/*   Updated: 2021/10/28 23:06:09 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define VECTOR_HPP
 
 # include <memory>
-# include "vector_iterator.hpp"
 # include "ft_reverse_iterator.hpp"
 # include "ft_iterator_traits.hpp"
 
@@ -412,7 +411,7 @@ namespace ft {
 			}
 			return (position);
 		}
-		iterator insert(iterator position, size_type n, const T& value) {
+		void insert(iterator position, size_type n, const T& value) {
 			if (n + _size > _capacity)
 				reallocate(find_new_capacity(_size + 1));
 			for (int i = 0; i < n ; i++) {
@@ -425,7 +424,24 @@ namespace ft {
 			for (int i = 0; i < n; i++) {
 				*(position + i) = value;
 			}
-			return (position);
+		}
+		template <class InputIterator>
+		void insert(iterator position, ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last) {
+			size_type length = _distance(first, last);
+			if (length + _size > _capacity)
+				reallocate(find_new_capacity(_size + length));
+			for (int i = 0; i < length ; i++) {
+				_alloc.construct(this->_head + _size + i, 0);
+			}
+			_size = _size + length;
+			iterator it = end() - 1;
+			iterator end_swap = position + length;
+			for (; it >= end_swap; it--) {
+				*it = *(it - length);
+			}
+			for (int i = 0; i < length; i++) {
+				*(position + i) = *(first + i);
+			}
 		}
 
 		private:
