@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adegarr <adegarr@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 11:51:19 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/11/03 14:26:28 by ade-garr         ###   ########.fr       */
+/*   Updated: 2021/11/03 22:38:23 by adegarr          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,24 @@
 
 int main(){
 
-    ft::vector_iterator<int> it;
-    // ft::vector_const_iterator<int> it_const;
+    // ft::vector_iterator<int> it;
+    // // ft::vector_const_iterator<int> it_const;
     
-    int a = 1;
-    it = &a;
-    *it = 2;
-    ft::vector_const_iterator<int> it_const(it);
+    // int a = 1;
+    // it = &a;
+    // *it = 2;
+    // ft::vector_const_iterator<int> it_const(it);
 
-    std::cout << a << std::endl;
+    // std::cout << a << std::endl;
 
+    std::vector<int> v(4, 10);
+    std::vector<int>::iterator it3;
+    std::vector<int>::const_iterator it;
+    // std::vector<int>::iterator it2(it3);
+
+    it3 = v.begin();
+    it = v.end();
+    while (it3 != it)
+        it3++;
     return (0);
 }

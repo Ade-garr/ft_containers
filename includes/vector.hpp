@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adegarr <adegarr@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 11:02:38 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/11/03 15:18:57 by ade-garr         ###   ########.fr       */
+/*   Updated: 2021/11/03 22:42:25 by adegarr          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ namespace ft {
 		~vector() {
 			for (size_type i = 0; i < _size; i++)
 				_alloc.destroy(&_head[i]);
-			_alloc.deallocate(_head, _capacity);
+			if (_capacity != 0)
+				_alloc.deallocate(_head, _capacity);
 		}
 		vector& operator=(const vector& x) {
 			vector tmp(x);
@@ -167,6 +168,7 @@ namespace ft {
 		template<class InputIterator>
 		void assign(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last) {
 			size_type length = _distance(first, last);
+			std::cout << "length = " << length << " && capacity = " << _capacity << std::endl;
 			if (length > _capacity)
 				reallocate_raw(length);
 			else
@@ -194,8 +196,11 @@ namespace ft {
 				_alloc.destroy(&_head[--_size]);
 		}
 		iterator insert(iterator position, const value_type& val) {
-			if (_size == _capacity)
+			difference_type start = position - begin();
+			if (_size == _capacity) {
 				reallocate(find_new_capacity(_size + 1));
+				position = begin() + start;
+			}
 			_alloc.construct(this->_head + _size, 0);
 			_size++;
 			value_type val_bis = *position;
@@ -208,8 +213,11 @@ namespace ft {
 			return (position);
 		}
 		void insert(iterator position, size_type n, const T& value) {
-			if (n + _size > _capacity)
-				reallocate(find_new_capacity(_size + 1));
+			difference_type start = position - begin();
+			if (n + _size > _capacity) {
+				reallocate(find_new_capacity(_size + n));
+				position = begin() + start;
+			}
 			for (size_type i = 0; i < n ; i++) {
 				_alloc.construct(this->_head + _size + i, 0);
 			}
@@ -224,28 +232,23 @@ namespace ft {
 		template <class InputIterator>
 		void insert(iterator position, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last) {
 			size_type length = _distance(first, last);
-			std::cout << "DISTANCE = " << length << std::endl;
-			if (length + _size > _capacity)
+			difference_type start = position - begin();
+			if (length + _size > _capacity) {
 				reallocate(find_new_capacity(_size + length));
+				position = begin() + start;
+			}
 			for (size_type i = 0; i < length ; i++) {
 				_alloc.construct(this->_head + _size + i, 0);
 			}
-			// std::cout << "JE PASSE LA \n";
-
 			_size = _size + length;
 			iterator it = end() - 1;
 			iterator end_swap = position + length;
-			// std::cout << "JE PASSE LA \n";
-
 			for (; it >= end_swap; it--) {
 				*it = *(it - length);
 			}
-			// std::cout << "JE PASSE LA \n";
 			for (size_type i = 0; i < length; i++, first++) {
 				*(position + i) = *(first);
 			}
-			// std::cout << "JE PASSE LA \n";
-
 		}
 		iterator erase(iterator position) {
 			return (erase(position, position + 1));
@@ -322,7 +325,7 @@ namespace ft {
 				_alloc.construct(&new_vector[i], _head[i]);
 				_alloc.destroy(&_head[i]);
 			}
-			if (_capacity)
+			if (_capacity != 0)
 				_alloc.deallocate(_head, _capacity);
 			_head = new_vector;
 			_capacity = n;
@@ -330,7 +333,8 @@ namespace ft {
 		void reallocate_raw(size_type n) {
 			pointer new_vector = _alloc.allocate(n);
 			_destroyfrom(0);
-			_alloc.deallocate(_head, _capacity);
+			if (_capacity != 0)
+				_alloc.deallocate(_head, _capacity);
 			_capacity = n;
 			_head = new_vector;
 			_size = 0;

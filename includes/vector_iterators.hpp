@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_iterators.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adegarr <adegarr@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 13:46:23 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/11/03 14:18:37 by ade-garr         ###   ########.fr       */
+/*   Updated: 2021/11/03 22:51:16 by adegarr          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <iterator>
 
 namespace ft {
+
+	template<class T> class vector_const_iterator;
 
     template< typename T >
     class vector_iterator {
@@ -117,7 +119,7 @@ namespace ft {
         reference operator[](difference_type n) const {
             return (v_it[n]);
         }
-
+    
         private:
 
         pointer	v_it;
