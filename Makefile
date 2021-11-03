@@ -6,7 +6,7 @@
 #    By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/12 10:29:31 by user42            #+#    #+#              #
-#    Updated: 2021/10/23 11:51:57 by ade-garr         ###   ########.fr        #
+#    Updated: 2021/11/03 14:01:22 by ade-garr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,13 @@ CFLAGS	+= -Wextra
 CFLAGS	+= -Werror
 CFLAGS	+= -std=c++98
 
-HEADER += ${INCLUDES}vector_iterator.hpp
+HEADER += ${INCLUDES}vector.hpp
+HEADER += ${INCLUDES}vector_iterators.hpp
+HEADER += ${INCLUDES}enable_if.hpp
+HEADER += ${INCLUDES}equal.hpp
+HEADER += ${INCLUDES}iterator_traits.hpp
+HEADER += ${INCLUDES}lexicographical_compare.hpp
+HEADER += ${INCLUDES}reverse_iterator.hpp
 
 all:		${NAME}
 

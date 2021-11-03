@@ -6,16 +6,22 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 11:02:38 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/10/29 18:01:29 by ade-garr         ###   ########.fr       */
+/*   Updated: 2021/11/03 15:18:57 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
+# include <iostream>
+
 # include <memory>
-# include "ft_reverse_iterator.hpp"
-# include "ft_iterator_traits.hpp"
+# include "reverse_iterator.hpp"
+# include "vector_iterators.hpp"
+# include "iterator_traits.hpp"
+# include "lexicographical_compare.hpp"
+# include "equal.hpp"
+# include "enable_if.hpp"
 
 namespace ft {
 
@@ -27,230 +33,18 @@ namespace ft {
 		public :
 
 		// ----- MEMBER TYPES -----
-		typedef T											value_type;
-		typedef Alloc										allocator_type;
-		typedef allocator_type::reference					reference;
-		typedef const allocator_type::const_reference		const_reference;
-		typedef allocator_type::pointer						pointer;
-		typedef const allocator_type::const_pointer			const_pointer;
-		typedef vector_iterator<T>							iterator;
-		typedef vector_const_iterator<T>					const_iterator;
-		typedef reverse_iterator<iterator>					reverse_iterator;
-		typedef reverse_iterator<const_iterator>			const_reverse_iterator;
-		typedef iterator_traits<iterator>::difference_type	difference_type;
-		typedef size_t										size_type;
-
-		// ----- ITERATORS -----
-		class vector_iterator {
-
-			public:
-
-			// ----- MEMBER TYPES -----
-			typedef std::random_access_iterator_tag	iterator_category;
-			typedef T								value_type;
-			typedef ptrdiff_t						difference_type;
-			typedef value_type*						pointer;
-			typedef value_type&						reference;
-
-			// ----- ITERATOR PROPERTIES -----
-			vector_iterator(pointer ptr = NULL) : v_it(ptr) {};
-			vector_iterator(vector_iterator const &cpy) {
-				*this = cpy;
-			}
-			~vector_iterator() {}
-			vector_iterator &operator=(vector_iterator const &rhs) {
-				if (*this != rhs)
-					v_it = rhs.v_it;
-				return (*this);
-			}
-			bool operator==(vector_iterator const &rhs) const {
-				if (v_it == rhs.v_it)
-					return (true);
-				return (false);
-			}
-			bool operator!=(vector_iterator const &rhs) const {
-				if (v_it != rhs.v_it)
-					return (true);
-				return (false);
-			}
-			reference operator*() const {
-				return (*v_it);
-			}
-			pointer operator->() const {
-				return (v_it);
-			}
-			vector_iterator &operator++() {
-				v_it++;
-				return (*this);
-			}
-			vector_iterator operator++(int) {
-				vector_iterator tmp = *this;
-				v_it++;
-				return (tmp);
-			}
-			vector_iterator &operator--() {
-				v_it--;
-				return (*this);
-			}
-			vector_iterator operator--(int) {
-				vector_iterator tmp = *this;
-				v_it--;
-				return (tmp);
-			}
-			vector_iterator operator+(difference_type n) const {
-				return (vector_iterator(v_it + n));
-			}
-			friend vector_iterator operator+(difference_type n, vector_iterator const &rhs) {
-				return (vector_iterator(rhs.v_it + n));
-			}
-			vector_iterator operator-(difference_type n) const {
-				return (vector_iterator(v_it - n));
-			}
-			difference_type operator-(vector_iterator const &rhs) const {
-				return (v_it - rhs.v_it);	
-			}
-			bool operator<(vector_iterator const &rhs) const {
-				if (v_it < rhs.v_it)
-					return (true);
-				return (false);
-			}
-			bool operator>(vector_iterator const &rhs) const {
-				if (v_it > rhs.v_it)
-					return (true);
-				return (false);
-			}
-			bool operator<=(vector_iterator const &rhs) const {
-				if (v_it <= rhs.v_it)
-					return (true);
-				return (false);
-			}
-			bool operator>=(vector_iterator const &rhs) const {
-				if (v_it >= rhs.v_it)
-					return (true);
-				return (false);
-			}
-			vector_iterator &operator+=(difference_type n) {
-				v_it += n;
-				return (*this);
-			}
-			vector_iterator &operator-=(difference_type n) {
-				v_it -= n;
-				return (*this);
-			}
-			reference operator[](difference_type n) const {
-				return (v_it[n]);
-			}
-
-			private:
-
-			pointer	v_it;
-
-		};
-		class vector_const_iterator {
-
-			public:
-
-			// ----- MEMBER TYPES -----
-			typedef std::random_access_iterator_tag	iterator_category;
-			typedef T								value_type;
-			typedef ptrdiff_t						difference_type;
-			typedef const value_type*				pointer;
-			typedef const value_type&				reference;
-
-			// ----- ITERATOR PROPERTIES -----
-			vector_const_iterator(pointer ptr = NULL) : v_it(ptr) {};
-			vector_const_iterator(vector_const_iterator const &cpy) {
-				*this = cpy;
-			}
-			vector_const_iterator(vector_iterator<value_type> const &it) : v_it(it.operator->()) {}
-			~vector_const_iterator() {}
-			vector_const_iterator &operator=(vector_const_iterator const &rhs) {
-				if (*this != rhs)
-					v_it = rhs.v_it;
-				return (*this);
-			}
-			bool operator==(vector_const_iterator const &rhs) const {
-				if (v_it == rhs.v_it)
-					return (true);
-				return (false);
-			}
-			bool operator!=(vector_const_iterator const &rhs) const {
-				if (v_it != rhs.v_it)
-					return (true);
-				return (false);
-			}
-			reference operator*() const {
-				return (*v_it);
-			}
-			pointer operator->() const {
-				return (v_it);
-			}
-			vector_const_iterator &operator++() {
-				v_it++;
-				return (*this);
-			}
-			vector_const_iterator operator++(int) {
-				vector_const_iterator tmp = *this;
-				v_it++;
-				return (tmp);
-			}
-			vector_const_iterator &operator--() {
-				v_it--;
-				return (*this);
-			}
-			vector_const_iterator operator--(int) {
-				vector_const_iterator tmp = *this;
-				v_it--;
-				return (tmp);
-			}
-			vector_const_iterator operator+(difference_type n) const {
-				return (vector_const_iterator(v_it + n));
-			}
-			friend vector_const_iterator operator+(difference_type n, vector_const_iterator const &rhs) { // a voir si friend a rajouter
-				return (vector_const_iterator(rhs.v_it + n));
-			}
-			vector_const_iterator operator-(difference_type n) const {
-				return (vector_const_iterator(v_it - n));
-			}
-			difference_type operator-(vector_const_iterator const &rhs) const {
-				return (v_it - rhs.v_it);	
-			}
-			bool operator<(vector_const_iterator const &rhs) const {
-				if (v_it < rhs.v_it)
-					return (true);
-				return (false);
-			}
-			bool operator>(vector_const_iterator const &rhs) const {
-				if (v_it > rhs.v_it)
-					return (true);
-				return (false);
-			}
-			bool operator<=(vector_const_iterator const &rhs) const {
-				if (v_it <= rhs.v_it)
-					return (true);
-				return (false);
-			}
-			bool operator>=(vector_const_iterator const &rhs) const {
-				if (v_it >= rhs.v_it)
-					return (true);
-				return (false);
-			}
-			vector_const_iterator &operator+=(difference_type n) {
-				v_it += n;
-				return (*this);
-			}
-			vector_const_iterator &operator-=(difference_type n) {
-				v_it -= n;
-				return (*this);
-			}
-			reference operator[](difference_type n) const {
-				return (v_it[n]);
-			}
-
-			private:
-
-			pointer	v_it;
-		};
+		typedef T													value_type;
+		typedef Alloc												allocator_type;
+		typedef typename allocator_type::reference					reference;
+		typedef typename allocator_type::const_reference			const_reference;
+		typedef typename allocator_type::pointer					pointer;
+		typedef typename allocator_type::const_pointer				const_pointer;
+		typedef vector_iterator<T>									iterator;
+		typedef vector_const_iterator<T>							const_iterator;
+		typedef reverse_iterator<const_iterator> 					const_reverse_iterator;
+		typedef reverse_iterator<iterator> 							reverse_iterator;
+		typedef typename iterator_traits<iterator>::difference_type	difference_type;
+		typedef size_t												size_type;
 
 		// ----- MEMBER FUNCTIONS -----
 		explicit vector (const allocator_type& alloc = allocator_type()): _size(0), _capacity(1), _alloc(alloc) { 
@@ -262,7 +56,7 @@ namespace ft {
 				_alloc.construct(&_head[i], val);
 		}
 		template <class InputIterator>
-		vector(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last, const allocator_type& alloc = allocator_type()) {
+		vector(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last, const allocator_type& alloc = allocator_type()) : _size(0), _capacity(0), _alloc(alloc) {
 				this->assign(first, last);
 		}
 		vector(const vector& x) : _size(x._size), _capacity(x._capacity), _alloc(x._alloc) {
@@ -370,8 +164,8 @@ namespace ft {
 		}
 
 		// ---------- MODIFIERS ----------
-		template<class inputIter>
-		void assign(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, inputIter last) {
+		template<class InputIterator>
+		void assign(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last) {
 			size_type length = _distance(first, last);
 			if (length > _capacity)
 				reallocate_raw(length);
@@ -386,7 +180,7 @@ namespace ft {
 				reallocate_raw(n);
 			else
 				_destroyfrom(0);
-			for (int i = 0; i != n; i++)
+			for (size_type i = 0; i != n; i++)
 				_alloc.construct(&_head[i], value);
 			_size = n;
 		}
@@ -416,34 +210,42 @@ namespace ft {
 		void insert(iterator position, size_type n, const T& value) {
 			if (n + _size > _capacity)
 				reallocate(find_new_capacity(_size + 1));
-			for (int i = 0; i < n ; i++) {
+			for (size_type i = 0; i < n ; i++) {
 				_alloc.construct(this->_head + _size + i, 0);
 			}
 			_size = _size + n;
-			for (int i = 0; i < n; i++) {
+			for (size_type i = 0; i < n; i++) {
 				right_shift(position);
 			}
-			for (int i = 0; i < n; i++) {
+			for (size_type i = 0; i < n; i++) {
 				*(position + i) = value;
 			}
 		}
 		template <class InputIterator>
-		void insert(iterator position, ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last) {
+		void insert(iterator position, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last) {
 			size_type length = _distance(first, last);
+			std::cout << "DISTANCE = " << length << std::endl;
 			if (length + _size > _capacity)
 				reallocate(find_new_capacity(_size + length));
-			for (int i = 0; i < length ; i++) {
+			for (size_type i = 0; i < length ; i++) {
 				_alloc.construct(this->_head + _size + i, 0);
 			}
+			// std::cout << "JE PASSE LA \n";
+
 			_size = _size + length;
 			iterator it = end() - 1;
 			iterator end_swap = position + length;
+			// std::cout << "JE PASSE LA \n";
+
 			for (; it >= end_swap; it--) {
 				*it = *(it - length);
 			}
-			for (int i = 0; i < length; i++) {
-				*(position + i) = *(first + i);
+			// std::cout << "JE PASSE LA \n";
+			for (size_type i = 0; i < length; i++, first++) {
+				*(position + i) = *(first);
 			}
+			// std::cout << "JE PASSE LA \n";
+
 		}
 		iterator erase(iterator position) {
 			return (erase(position, position + 1));
@@ -451,7 +253,7 @@ namespace ft {
 		iterator erase(iterator first, iterator last) {
 			for (size_type i = 0; last + i != end(); i++)
 				*(first + i) = *(last + i);
-			for (int i = 0; i < _distance(first, last); i++) {
+			for (difference_type i = 0; i < _distance(first, last); i++) {
 				_alloc.destroy(&_head[_size - 1 - i]);
 			}
 			_size -= _distance(first, last);
@@ -489,7 +291,7 @@ namespace ft {
 		private:
 
 		void right_shift(iterator position) {
-			for (iterator it = end() - 1; it > position, it--) {
+			for (iterator it = end() - 1; it > position; it--) {
 				value_type tmp = *it;
 				*it = *(it - 1);
 				*(it - 1) = tmp;

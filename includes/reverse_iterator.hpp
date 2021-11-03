@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_reverse_iterator.hpp                            :+:      :+:    :+:   */
+/*   reverse_iterator.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 15:55:44 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/10/27 11:56:12 by ade-garr         ###   ########.fr       */
+/*   Updated: 2021/11/03 14:25:44 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_REVERSE_ITERATOR_HPP
-# define FT_REVERSE_ITERATOR_HPP
+#ifndef REVERSE_ITERATOR_HPP
+# define REVERSE_ITERATOR_HPP
 
-# include "ft_iterator_traits.hpp"
+# include "iterator_traits.hpp"
 
 namespace ft {
 	
@@ -94,8 +94,7 @@ namespace ft {
 	// ----- NON MEMBER FUNCTIONS -----
 
 	template< typename Iter >
-	typename reverse_iterator<Iter>
-    operator+( typename reverse_iterator<Iter>::difference_type n, const reverse_iterator<Iter>& it ) {
+	reverse_iterator<Iter> operator+( typename reverse_iterator<Iter>::difference_type n, const reverse_iterator<Iter>& it ) {
 		return reverse_iterator<Iter>(it.operator+(n));
 	}
     
@@ -138,5 +137,6 @@ namespace ft {
 	bool operator>=( const reverse_iterator<Iterator1>& lhs, const reverse_iterator<Iterator2>& rhs ) {
 		return lhs.base() <= rhs.base();
 	}
+}
 
 #endif

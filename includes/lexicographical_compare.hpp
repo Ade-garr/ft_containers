@@ -1,18 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lexicographical_compare.hpp                     :+:      :+:    :+:   */
+/*   lexicographical_compare.hpp                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/29 16:51:29 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/10/29 17:54:54 by ade-garr         ###   ########.fr       */
+/*   Created: 2021/11/03 13:59:39 by ade-garr          #+#    #+#             */
+/*   Updated: 2021/11/03 13:59:41 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_LEXICOGRAPHICAL_COMPARE_HPP
-
-# define FT_LEXICOGRAPHICAL_COMPARE_HPP
+#ifndef LEXICOGRAPHICAL_COMPARE_HPP
+# define LEXICOGRAPHICAL_COMPARE_HPP
 
 namespace ft {
 	
