@@ -84,11 +84,9 @@ namespace ft {
 			return const_iterator(_head);
 		}
 		iterator end() {
-			std::cout << "je passe ici\n";
 			return (iterator(_head + _size));
 		}
 		const_iterator end() const {
-			std::cout << "je passe la\n";
 			return (const_iterator(_head + _size));
 		}
 		reverse_iterator rbegin() {
@@ -170,7 +168,6 @@ namespace ft {
 		template<class InputIterator>
 		void assign(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last) {
 			size_type length = _distance(first, last);
-			std::cout << "length = " << length << " && capacity = " << _capacity << std::endl;
 			if (length > _capacity)
 				reallocate_raw(length);
 			else
