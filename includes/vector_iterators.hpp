@@ -6,7 +6,7 @@
 /*   By: adegarr <adegarr@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 13:46:23 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/11/03 22:51:16 by adegarr          ###   ########.fr       */
+/*   Updated: 2021/11/04 17:08:22 by adegarr          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ namespace ft {
     };
 
     template< typename T >
-    class vector_const_iterator {
+    class vector_const_iterator : public vector_iterator< T > {
 
         public:
 
@@ -143,7 +143,7 @@ namespace ft {
         vector_const_iterator(vector_const_iterator const &cpy) {
             *this = cpy;
         }
-        vector_const_iterator(vector_iterator<value_type> const &it) : v_it(it.operator->()) {}
+        // vector_const_iterator(vector_iterator<value_type> const &it) : v_it(it.operator->()) {}
         ~vector_const_iterator() {}
         vector_const_iterator &operator=(vector_const_iterator const &rhs) {
             if (*this != rhs)

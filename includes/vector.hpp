@@ -6,7 +6,7 @@
 /*   By: adegarr <adegarr@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 11:02:38 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/11/03 22:42:25 by adegarr          ###   ########.fr       */
+/*   Updated: 2021/11/04 16:26:36 by adegarr          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,11 @@ namespace ft {
 			return const_iterator(_head);
 		}
 		iterator end() {
+			std::cout << "je passe ici\n";
 			return (iterator(_head + _size));
 		}
 		const_iterator end() const {
+			std::cout << "je passe la\n";
 			return (const_iterator(_head + _size));
 		}
 		reverse_iterator rbegin() {
