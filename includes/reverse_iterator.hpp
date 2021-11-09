@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 15:55:44 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/11/03 14:25:44 by ade-garr         ###   ########.fr       */
+/*   Updated: 2021/11/09 00:36:53 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define REVERSE_ITERATOR_HPP
 
 # include "iterator_traits.hpp"
+# include "vector_iterators.hpp"
 
 namespace ft {
 	
@@ -31,9 +32,18 @@ namespace ft {
 		typedef typename iterator_traits<iterator>::reference	        reference;
 
 		// ----- MEMBER FUNCTIONS -----
-		reverse_iterator(pointer ptr = NULL) : b_it(iterator_type(ptr)) {}
+		reverse_iterator(pointer ptr = NULL) : b_it(iterator_type(ptr)) {
+			std::cout << "eeeeee\n";
+		}
 		explicit reverse_iterator(iterator_type it) : b_it(--it) {}
-		reverse_iterator(const reverse_iterator<iterator>& cpy) : b_it(cpy.b_it) {}	
+		template< typename U >
+		reverse_iterator(reverse_iterator< U > const &cpy) : b_it(cpy.base()) {}
+		template< typename U >
+		reverse_iterator &operator=(reverse_iterator< U > const &rhs ) {
+			std::cout << "HERE\n";
+			b_it = rhs.base();
+			return (*this);
+		}
 		iterator_type base() const {
 			iterator_type tmp(b_it);
 			return (++tmp);
@@ -42,8 +52,7 @@ namespace ft {
 			return (*b_it);
 		}
 		reverse_iterator operator+(difference_type n) const {
-			reverse_iterator tmp(base().operator-(n));
-			return (tmp);
+			return (reverse_iterator(base() - n));
 		}
         reverse_iterator& operator++() {
             --b_it;
@@ -59,9 +68,7 @@ namespace ft {
             return (*this);
         }
         reverse_iterator operator-(difference_type n) const {
-            reverse_iterator tmp(*this);
-            tmp.b_it.operator+(n);
-            return (tmp);
+            return (reverse_iterator(base() + n));
         }
         reverse_iterator& operator--() {
             ++b_it;
@@ -81,7 +88,7 @@ namespace ft {
         }
         reference operator[](size_t n) { 
             iterator_type it = b_it;
-			for (difference_type i = 0; i != -(-n - 1); i++, it--)
+			for (size_t i = 0; i != -(-n - 1); i++, it--)
 				;
 			return (*it);
         }
