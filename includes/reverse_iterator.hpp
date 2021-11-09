@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 15:55:44 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/11/09 00:36:53 by ade-garr         ###   ########.fr       */
+/*   Updated: 2021/11/09 20:09:08 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,13 @@ namespace ft {
 		typedef typename iterator_traits<iterator>::reference	        reference;
 
 		// ----- MEMBER FUNCTIONS -----
-		reverse_iterator(pointer ptr = NULL) : b_it(iterator_type(ptr)) {
-			std::cout << "eeeeee\n";
-		}
+		reverse_iterator() : b_it() { }
 		explicit reverse_iterator(iterator_type it) : b_it(--it) {}
 		template< typename U >
-		reverse_iterator(reverse_iterator< U > const &cpy) : b_it(cpy.base()) {}
+		reverse_iterator(reverse_iterator< U > const &cpy) : b_it(cpy.operator->()) {}
 		template< typename U >
 		reverse_iterator &operator=(reverse_iterator< U > const &rhs ) {
-			std::cout << "HERE\n";
-			b_it = rhs.base();
+			b_it = rhs.operator->();
 			return (*this);
 		}
 		iterator_type base() const {
@@ -87,10 +84,7 @@ namespace ft {
             return (&this->operator*());
         }
         reference operator[](size_t n) { 
-            iterator_type it = b_it;
-			for (size_t i = 0; i != -(-n - 1); i++, it--)
-				;
-			return (*it);
+        	return (base()[-n-1]);
         }
 		
         private:
