@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 15:55:44 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/11/09 20:09:08 by ade-garr         ###   ########.fr       */
+/*   Updated: 2021/11/10 00:27:29 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ namespace ft {
 	template<class iterator>
 	class reverse_iterator {
 
+		// ----- PUBLIC -----
         public:
 
 		// ----- MEMBER TYPES -----
@@ -87,6 +88,7 @@ namespace ft {
         	return (base()[-n-1]);
         }
 		
+		// ----- PRIVATE -----
         private:
 
 		iterator_type	b_it;

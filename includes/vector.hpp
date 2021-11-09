@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 11:02:38 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/11/09 19:47:00 by ade-garr         ###   ########.fr       */
+/*   Updated: 2021/11/10 00:21:51 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ namespace ft {
 	class vector {
 		
 		// ----- PUBLIC -----
-
 		public :
 
 		// ----- MEMBER TYPES -----

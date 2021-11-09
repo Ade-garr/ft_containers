@@ -6,7 +6,7 @@
 #    By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/12 10:29:31 by user42            #+#    #+#              #
-#    Updated: 2021/11/03 14:01:22 by ade-garr         ###   ########.fr        #
+#    Updated: 2021/11/09 23:49:33 by ade-garr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ HEADER += ${INCLUDES}equal.hpp
 HEADER += ${INCLUDES}iterator_traits.hpp
 HEADER += ${INCLUDES}lexicographical_compare.hpp
 HEADER += ${INCLUDES}reverse_iterator.hpp
+HEADER += ${INCLUDES}stack.hpp
 
 all:		${NAME}
 

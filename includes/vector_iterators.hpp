@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 13:46:23 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/11/09 20:05:58 by ade-garr         ###   ########.fr       */
+/*   Updated: 2021/11/10 00:26:35 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ namespace ft {
     template< typename T >
     class vector_iterator {
 
+		// ----- PUBLIC -----
         public:
 
         // ----- MEMBER TYPES -----
@@ -121,6 +122,7 @@ namespace ft {
             return (v_it[n]);
         }
     
+		// ----- PRIVATE -----
         private:
 
         pointer	v_it;
