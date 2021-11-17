@@ -6,11 +6,14 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 23:48:07 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/11/10 00:28:36 by ade-garr         ###   ########.fr       */
+/*   Updated: 2021/11/17 15:01:44 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector.hpp"
+#ifndef STACK_HPP
+# define STACK_HPP
+
+# include "vector.hpp"
 
 namespace ft {
 	
@@ -77,3 +80,5 @@ namespace ft {
 		container_type 	_ctnr;
 	};
 }
+
+#endif
