@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 02:15:57 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/11/18 02:55:52 by ade-garr         ###   ########.fr       */
+/*   Updated: 2021/11/18 10:42:35 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ namespace ft {
 		private:
 
 			Node*	_root;
-			Node*	_lastinsert;
+			Node*	_lastinsert; // a voir
 			size_type	_size;
-			key_compare	_comp;
+			key_compare	_comp; // a voir
 			allocator_type	_alloc;
 
 			int	height(Node* node) const {
@@ -82,7 +82,7 @@ namespace ft {
 				node->right = this->tree_ll_rotate(node->right);
 				return (this->tree_rr_rotate(node));
 			}
-			Node*	tree_balance(Node* node) {
+			Node*	tree_balance(Node* node) { // a voir
 				int	factor = getbalance(node);
 				if (factor > 1) {
 					if (getbalance(node->left) > 0)
@@ -99,7 +99,7 @@ namespace ft {
 				return (node);
 			}
 			Node*	tree_create_node(const value_type& val, Node* parent) {
-				Node*	new_node = Node_allocator(_alloc).allocate(1);
+				Node*	new_node = Node_allocator(_alloc).allocate(1); // a voir
 				new_node->right = NULL;
 				new_node->left = NULL;
 				new_node->height = 1;

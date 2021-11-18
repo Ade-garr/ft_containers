@@ -6,7 +6,7 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 23:48:07 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/11/17 15:01:44 by ade-garr         ###   ########.fr       */
+/*   Updated: 2021/11/18 11:53:06 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ namespace ft {
 		}
 
 		// ----- PRIVATE -----
-		private:
+		protected:
 
 		container_type 	_ctnr;
 	};
