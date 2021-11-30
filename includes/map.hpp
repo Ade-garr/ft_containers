@@ -6,7 +6,7 @@
 /*   By: adegarr <adegarr@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 02:15:57 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/11/30 22:33:57 by adegarr          ###   ########.fr       */
+/*   Updated: 2021/11/30 22:35:51 by adegarr          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,9 +285,9 @@ namespace ft {
 		private:
 
 			Node*	_root;
-			Node*	_lastinsert; // a voir
+			Node*	_lastinsert;
 			size_type	_size;
-			key_compare	_comp; // a voir
+			key_compare	_comp;
 			allocator_type	_alloc;
 
 			int	height(Node* node) const {
@@ -334,24 +334,24 @@ namespace ft {
 				node->right = this->tree_ll_rotate(node->right);
 				return (this->tree_rr_rotate(node));
 			}
-			Node*	tree_balance(Node* node) { // a voir
-				int	factor = getbalance(node);
-				if (factor > 1) {
-					if (getbalance(node->left) > 0)
-						return (this->tree_ll_rotate(node));
-					else
-						return (this->tree_lr_rotate(node));
-				}
-				else if (factor < -1) {
-					if (getbalance(node->right) < 0)						
-						return (this->tree_rr_rotate(node));
-					else
-						return (this->tree_rl_rotate(node));
-				}
-				return (node);
-			}
+			// Node*	tree_balance(Node* node) { // a voir
+			// 	int	factor = getbalance(node);
+			// 	if (factor > 1) {
+			// 		if (getbalance(node->left) > 0)
+			// 			return (this->tree_ll_rotate(node));
+			// 		else
+			// 			return (this->tree_lr_rotate(node));
+			// 	}
+			// 	else if (factor < -1) {
+			// 		if (getbalance(node->right) < 0)						
+			// 			return (this->tree_rr_rotate(node));
+			// 		else
+			// 			return (this->tree_rl_rotate(node));
+			// 	}
+			// 	return (node);
+			// }
 			Node*	tree_create_node(const value_type& val, Node* parent) {
-				Node*	new_node = Node_allocator(_alloc).allocate(1); // a voir
+				Node*	new_node = Node_allocator(_alloc).allocate(1);
 				new_node->right = NULL;
 				new_node->left = NULL;
 				new_node->height = 1;
