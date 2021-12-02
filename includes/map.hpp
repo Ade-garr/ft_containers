@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adegarr <adegarr@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 02:15:57 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/11/30 22:35:51 by adegarr          ###   ########.fr       */
+/*   Updated: 2021/12/02 00:53:49 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@
 namespace ft {
 	template< class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator< ft::pair< const Key, T > > >
 	class map {
+
+		// ----- PUBLIC -----
+		public:
+
 		struct Node {
 			ft::pair<const Key, T>	val;
 			Node*	parent;
@@ -33,8 +37,26 @@ namespace ft {
 			int		height;
 		};
 
+		// ----- MEMBER TYPES -----
+		typedef Key													key_type;
+		typedef T													mapped_type;
+		typedef ft::pair<const key_type, mapped_type>				value_type;
+		typedef Compare												key_compare;
+		typedef Alloc												allocator_type;
+		typedef typename allocator_type::reference					reference;
+		typedef typename allocator_type::const_reference			const_reference;
+		typedef typename allocator_type::pointer					pointer;
+		typedef typename allocator_type::const_pointer				const_pointer;
+		typedef map_iterator<value_type, Node>								iterator;
+		typedef map_const_iterator<value_type, Node>							const_iterator;
+		typedef reverse_iterator<const_iterator>					const_reverse_iterator;
+		typedef reverse_iterator<iterator>							reverse_iterator;
+		typedef typename iterator_traits<iterator>::difference_type	difference_type;
+		typedef size_t												size_type;
+		typedef typename Alloc::template rebind<Node>::other		Node_allocator;
+
 		class value_compare {
-			// friend class map; // a voir
+			friend class map;
 
 			public:
 
@@ -51,27 +73,6 @@ namespace ft {
 			Compare		comp;
 			value_compare(Compare c) : comp(c) {}
 		};
-
-		// ----- PUBLIC -----
-		public:
-
-		// ----- MEMBER TYPES -----
-		typedef Key													key_type;
-		typedef T													mapped_type;
-		typedef ft::pair<const key_type, mapped_type>				value_type;
-		typedef Compare												key_compare;
-		typedef Alloc												allocator_type;
-		typedef typename allocator_type::reference					reference;
-		typedef typename allocator_type::const_reference			const_reference;
-		typedef typename allocator_type::pointer					pointer;
-		typedef typename allocator_type::const_pointer				const_pointer;
-		typedef map_iterator<T>										iterator;
-		typedef map_const_iterator<T>								const_iterator;
-		typedef reverse_iterator<const_iterator>					const_reverse_iterator;
-		typedef reverse_iterator<iterator>							reverse_iterator;
-		typedef typename iterator_traits<iterator>::difference_type	difference_type;
-		typedef size_t												size_type;
-		typedef typename Alloc::template rebind<Node>::other		Node_allocator;
 
 		// ----- MEMBER FUNCTIONS -----
 		explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _root(NULL), _lastinsert(NULL), _size(0), _comp(comp), _alloc(alloc) {}
@@ -104,12 +105,12 @@ namespace ft {
 		iterator end() {
 			if (this->empty())
 				return (iterator());
-			return (iterator((this->maxValueNode(_root))->right, this->maxValueNode(_root)));
+			return (iterator((this->maxValueNode(_root))->right));
 		}
 		const_iterator end() const {
 			if (this->empty())
 				return (iterator());
-			return (const_iterator((this->maxValueNode(_root))->right, this->maxValueNode(_root)));
+			return (const_iterator((this->maxValueNode(_root))->right));
 		}
 		reverse_iterator rbegin() {
 			return (reverse_iterator(this->maxValueNode(_root)));

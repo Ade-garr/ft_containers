@@ -6,19 +6,23 @@
 /*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 10:47:11 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/11/23 01:59:17 by ade-garr         ###   ########.fr       */
+/*   Updated: 2021/12/02 00:20:08 by ade-garr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAP_ITERATORS_HPP
 # define MAP_ITERATORS_HPP
 
-# include "map.hpp"
-
 namespace ft {
 
-    template< typename T >
+    template< typename T, typename Node >
     class map_iterator {
+
+		// ----- PRIVATE -----
+		private:
+
+		// ----- MEMBER TYPES -----
+		typedef Node* node_ptr;
 
 		// ----- PUBLIC -----
         public:
@@ -45,7 +49,7 @@ namespace ft {
 			return (lhs.ptr == rhs.ptr);
 		}
 		friend bool operator!=(map_iterator const &lhs, map_iterator const &rhs) {
-			return !(lhs._node == rhs._node);
+			return !(lhs.ptr == rhs.ptr);
 		}
 		reference operator*() const {
 			return (ptr->val);
@@ -101,18 +105,22 @@ namespace ft {
 			--(*this);
 			return (tmp);
 		}
+		node_ptr getNode() const { return ptr; }
+
+		// ----- PRIVATE -----
+		private:
+
+		node_ptr ptr;
+	};
+
+	template< typename T, typename Node >
+    class map_const_iterator {
 
 		// ----- PRIVATE -----
 		private:
 
 		// ----- MEMBER TYPES -----
-		typedef ft::map< ft::T::first_type, ft::T::second_type >::Node* node_ptr;
-
-		node_ptr ptr;
-	};
-
-	template< typename T >
-    class map_const_iterator {
+		typedef Node* node_ptr;
 
 		// ----- PUBLIC -----
         public:
@@ -129,7 +137,7 @@ namespace ft {
 		map_const_iterator(map_const_iterator const &cpy) {
             *this = cpy;
         }
-		map_const_iterator(map_iterator< value_type > const &it) : ptr(it.operator->()) {}
+		map_const_iterator(map_iterator< value_type, Node > const &it) : ptr(it.getNode()) {}
 		~map_const_iterator() {}
 		map_const_iterator &operator=(map_const_iterator const &rhs) {
             if (*this != rhs)
@@ -140,7 +148,7 @@ namespace ft {
 			return (lhs.ptr == rhs.ptr);
 		}
 		friend bool operator!=(map_const_iterator const &lhs, map_const_iterator const &rhs) {
-			return !(lhs._node == rhs._node);
+			return !(lhs.ptr == rhs.ptr);
 		}
 		reference operator*() const {
 			return (ptr->val);
@@ -199,9 +207,6 @@ namespace ft {
 
 		// ----- PRIVATE -----
 		private:
-
-		// ----- MEMBER TYPES -----
-		typedef ft::map< ft::T::first_type, ft::T::second_type >::Node* node_ptr;
 
 		node_ptr ptr;
 	};
