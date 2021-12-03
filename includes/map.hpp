@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adegarr <adegarr@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 02:15:57 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/12/02 00:53:49 by ade-garr         ###   ########.fr       */
+/*   Updated: 2021/12/03 12:00:15 by adegarr          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,27 @@ namespace ft {
 		};
 
 		// ----- MEMBER FUNCTIONS -----
-		explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _root(NULL), _lastinsert(NULL), _size(0), _comp(comp), _alloc(alloc) {}
+		explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _root(NULL), _lastinsert(NULL), _size(0), _comp(comp), _alloc(alloc) {
+			_endNode = _create_endNode();
+		}
 		template <class InputIterator>
 		map(typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _root(NULL), _lastinsert(NULL), _size(0), _comp(comp), _alloc(alloc) {
+			_endNode = _create_endNode();
 			while (first != last)
 				this->insert(*first++);
+			link_endNode();
 		}
 		map(const map& x) : _root(NULL), _lastinsert(NULL), _size(0), _comp(key_compare()), _alloc(allocator_type()) {
 			const_iterator ite = x.end();
+			_endNode = _create_endNode();
 			for (const_iterator it = x.begin(); it != ite; it++)
 				this->insert(*it);
+			link_endNode();
 		}
 		~map() {
+			unlink_endNode();
 			this->clear();
+			Node_allocator(_alloc).deallocate(_endNode, 1);
 		}
 		map& operator=(const map& x) {
 			map tmp(x);
@@ -97,37 +105,34 @@ namespace ft {
 
 		// ---------- ITERATORS ----------
 		iterator begin() {
-			return (iterator(this->minValueNode(_root)));
+			Node *min = minValueNode(_root);
+			if (min == NULL)
+				return (_endNode);
+			return (iterator(min));
 		}
 		const_iterator begin() const {
-			return (const_iterator(this->minValueNode(_root)));
+			Node *min = minValueNode(_root);
+			if (min == NULL)
+				return (_endNode);
+			return (const_iterator(min));		
 		}
 		iterator end() {
-			if (this->empty())
-				return (iterator());
-			return (iterator((this->maxValueNode(_root))->right));
+			return (iterator(this->_endNode));
 		}
 		const_iterator end() const {
-			if (this->empty())
-				return (iterator());
-			return (const_iterator((this->maxValueNode(_root))->right));
+			return (const_iterator(this->_endNode));
 		}
 		reverse_iterator rbegin() {
-			return (reverse_iterator(this->maxValueNode(_root)));
+			return (reverse_iterator(this->end()));
 		}
 		const_reverse_iterator rbegin() const {
-			return (const_reverse_iterator(this->maxValueNode(_root)));
+			return (const_reverse_iterator(this->end()));
 		}
 		reverse_iterator rend() {
-			if (this->empty())
-				return (reverse_iterator(_root));
-			return (reverse_iterator((this->minValueNode(_root))->left, this->minValueNode(_root)));
+			return (reverse_iterator(begin()));
 		}
 		const_reverse_iterator rend() const {
-			if (this->empty())
-				return (const_reverse_iterator(_root));
-			return (const_reverse_iterator((this->minValueNode(_root))->left,
-				this->minValueNode(_root)));
+			return (const_reverse_iterator(begin()));
 		}
 
 		// ---------- CAPACITY ----------
@@ -143,19 +148,23 @@ namespace ft {
 
 		// ---------- ELEMENT ACCESS ----------
 		mapped_type& operator[](const key_type& k) {
+			unlink_endNode();
 			_root = this->tree_insert(_root, NULL, ft::make_pair(k, mapped_type()));
 			// _root = tree_balance(_root); // a voir
 			Node* element = _lastinsert;
 			_lastinsert = NULL;
+			link_endNode();
 			return (element->val.second);
 		}
 
 		// ---------- MODIFIERS ----------
 		pair<iterator,bool> insert(const value_type& val) {
+			unlink_endNode();
 			size_type size_before = this->size();
 			_root = this->tree_insert(_root, NULL, val);
 			Node* newnode = _lastinsert;
 			_lastinsert = NULL;
+			link_endNode();
 			return (ft::pair<iterator, bool>(iterator(newnode), (this->size() > size_before)));
 		}
 		iterator insert(iterator position, const value_type& val) {
@@ -168,11 +177,17 @@ namespace ft {
 				this->insert(*first++);
 		}
 		void erase(iterator position) {
+			if (position == _endNode)
+				return ;
+			unlink_endNode();
 			_root = this->tree_delete(_root, position->first);
+			link_endNode();
 		}
 		size_type erase(const key_type& k) {
+			unlink_endNode();
 			size_type tmp = this->size();
 			_root = this->tree_delete(_root, k);
+			link_endNode();
 			return ((this->size() == tmp) ? 0 : 1);
 		}
 		void erase(iterator first, iterator last) {
@@ -183,28 +198,34 @@ namespace ft {
 		void swap(map& x) {
 			Node*	_root_tmp;
 			Node*	_lastinsert_tmp;
+			Node*	_endNode_tmp;
 			size_type	_size_tmp;
 			key_compare	_comp_tmp;
 			allocator_type	_alloc_tmp;
 
 			_root_tmp = _root;
 			_lastinsert_tmp = _lastinsert;
+			_endNode_tmp = _endNode;
 			_size_tmp = _size;
 			_comp_tmp = _comp;
 			_alloc_tmp = _alloc;
 			_root = x._root;
 			_lastinsert = x._lastinsert;
+			_endNode = x._endNode;
 			_size = x._size;
 			_comp = x._comp;
 			_alloc = x._alloc;
 			x._root = _root_tmp;
 			x._lastinsert = _lastinsert_tmp;
+			x._endNode = _endNode_tmp;
 			x._size = _size_tmp;
 			x._comp = _comp_tmp;
 			x._alloc = _alloc_tmp;
 		}
 		void clear() {
+			unlink_endNode();
 			_root = this->tree_clear(_root);
+			link_endNode();
 		}
 		// ---------- OBSERVERS ----------
 		key_compare key_comp() const {
@@ -215,21 +236,21 @@ namespace ft {
 		}
 		// ---------- OPERATIONS ----------
 		iterator find(const key_type& k) {
-			Node* tmp = this->tree_search(_root, k);
+			Node* tmp = this->tree_find(_root, k);
 
 			if (tmp)
 				return (iterator(tmp));
 			return (this->end());
 		}
 		const_iterator find(const key_type& k) const {
-			Node* tmp = this->tree_search(_root, k);
+			Node* tmp = this->tree_find(_root, k);
 
 			if (tmp)
 				return (const_iterator(tmp));
 			return (this->end());
 		}
 		size_type count(const key_type& k) const {
-			Node* tmp = this->tree_search(_root, k);
+			Node* tmp = this->tree_find(_root, k);
 
 			if (tmp)
 				return (1);
@@ -287,10 +308,33 @@ namespace ft {
 
 			Node*	_root;
 			Node*	_lastinsert;
+			Node*	_endNode;
 			size_type	_size;
 			key_compare	_comp;
 			allocator_type	_alloc;
 
+			Node *_create_endNode() {
+				Node*	new_node = Node_allocator(_alloc).allocate(1);
+				new_node->right = NULL;
+				new_node->left = NULL;
+				new_node->height = 0;
+				new_node->parent = NULL;
+				return (new_node);
+			}
+			void unlink_endNode() {
+				if (_endNode->parent != NULL) {
+					Node *max = maxValueNode(_root);
+					if (max != NULL)
+						max->right = NULL;
+					_endNode->parent = NULL;
+				}
+			}
+			void link_endNode() {
+				Node *max = maxValueNode(_root);
+				if (max != NULL)
+					max->right = _endNode;
+				_endNode->parent = max;
+			}
 			int	height(Node* node) const {
 				if (node != NULL)
 					return (node->height);
@@ -397,8 +441,11 @@ namespace ft {
 				else {
 					if ((node->right == NULL) || (node->left == NULL)) {
 						Node* tmp = node->right ? node->right : node->left;
-						if (tmp == NULL)
-							swap(tmp, node);
+						if (tmp == NULL) {
+							Node *_tmp = tmp;
+							tmp = node;
+							node = _tmp;
+						}
 						else {
 							_alloc.destroy(&node->val);
 							_alloc.construct(&node->val, tmp->val);
@@ -461,7 +508,7 @@ namespace ft {
 				return (node);
 			}
 			Node*	maxValueNode(Node* node) const {
-				while (node && node->right != NULL)
+				while (node && node->right != NULL && node->right != _endNode)
 					node = node->right;
 				return (node);
 			}

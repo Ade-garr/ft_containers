@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reverse_iterator.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adegarr <adegarr@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 15:55:44 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/11/10 00:27:29 by ade-garr         ###   ########.fr       */
+/*   Updated: 2021/12/03 12:59:23 by adegarr          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,21 @@ namespace ft {
 		typedef typename iterator_traits<iterator>::reference	        reference;
 
 		// ----- MEMBER FUNCTIONS -----
-		reverse_iterator() : b_it() { }
-		explicit reverse_iterator(iterator_type it) : b_it(--it) {}
+		reverse_iterator() : b_it() {}
+		explicit reverse_iterator(iterator_type it) : b_it(it) {}
 		template< typename U >
-		reverse_iterator(reverse_iterator< U > const &cpy) : b_it(cpy.operator->()) {}
+		reverse_iterator(reverse_iterator< U > const &cpy) : b_it(cpy.base()) {}
 		template< typename U >
 		reverse_iterator &operator=(reverse_iterator< U > const &rhs ) {
-			b_it = rhs.operator->();
+			b_it = rhs.base();
 			return (*this);
 		}
 		iterator_type base() const {
-			iterator_type tmp(b_it);
-			return (++tmp);
+			return (b_it);
 		}
 		reference operator*() const {
-			return (*b_it);
+			iterator_type	tmp(b_it);
+			return (*(--tmp));
 		}
 		reverse_iterator operator+(difference_type n) const {
 			return (reverse_iterator(base() - n));
@@ -82,7 +82,8 @@ namespace ft {
             return (*this);
         }
         pointer operator->() const {
-            return (&this->operator*());
+			iterator_type tmp(b_it);
+            return (&((--tmp).operator*()));
         }
         reference operator[](size_t n) { 
         	return (base()[-n-1]);
