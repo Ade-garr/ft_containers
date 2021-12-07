@@ -3,18 +3,19 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+         #
+#    By: adegarr <adegarr@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/12 10:29:31 by user42            #+#    #+#              #
-#    Updated: 2021/12/07 02:56:06 by ade-garr         ###   ########.fr        #
+#    Updated: 2021/12/07 13:10:28 by adegarr          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+SRCS_PERF += srcs/main_perf.cpp
 SRCS += srcs/main.cpp
 
 OBJS	= ${SRCS:.cpp=.o}
 
-NAME	= ft_containers_FT
+NAME	= ft_containers
 
 INCLUDES = ./includes/
 
@@ -45,7 +46,13 @@ ${NAME}:	${OBJS}
 
 ${OBJS}: %.o: %.cpp ${HEADER}
 			${CC} ${CFLAGS} -I ${INCLUDES} -c $< -o $@
-			
+
+std:		fclean
+			${CC} ${CFLAGS} -I ${INCLUDES} -o ${NAME} ${SRCS} -D NAMESPACE=std
+
+perf:		fclean
+			${CC} ${CFLAGS} -I ${INCLUDES} -o ${NAME} ${SRCS_PERF}
+
 clean:
 			rm -f ${OBJS}
 
