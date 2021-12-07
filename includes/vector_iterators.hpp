@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_iterators.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adegarr <adegarr@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 13:46:23 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/11/18 10:53:25 by ade-garr         ###   ########.fr       */
+/*   Updated: 2021/12/07 19:58:07 by adegarr          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ namespace ft {
         }
         ~vector_iterator() {}
         vector_iterator &operator=(vector_iterator const &rhs) {
-            if (*this != rhs)
+            if (this != &rhs)
                 v_it = rhs.v_it;
             return (*this);
         }
@@ -65,7 +65,7 @@ namespace ft {
             return (*this);
         }
         vector_iterator operator++(int) {
-            vector_iterator tmp = *this;
+            vector_iterator tmp(*this);
             v_it++;
             return (tmp);
         }
@@ -150,7 +150,7 @@ namespace ft {
         }
         ~vector_const_iterator() {}
         vector_const_iterator &operator=(vector_const_iterator const &rhs) {
-            if (*this != rhs)
+            if (this != &rhs)
                 v_it = rhs.v_it;
             return (*this);
         }

@@ -6,7 +6,7 @@
 /*   By: adegarr <adegarr@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 02:15:57 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/12/03 12:00:15 by adegarr          ###   ########.fr       */
+/*   Updated: 2021/12/07 20:17:13 by adegarr          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include "pair.hpp"
 # include "enable_if.hpp"
 # include <functional>
+# include <algorithm>
 
 namespace ft {
 	template< class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator< ft::pair< const Key, T > > >
@@ -492,7 +493,7 @@ namespace ft {
 				return (NULL);
 			}
 			Node*	tree_find(Node* node, const key_type& key) const {
-				if (node == NULL)
+				if (node == NULL || node == _endNode)
 					return (NULL);
 				if (!_comp(node->val.first, key) && !_comp(key, node->val.first))
 					return (node);

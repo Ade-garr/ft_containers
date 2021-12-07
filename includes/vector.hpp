@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ade-garr <ade-garr@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adegarr <adegarr@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 11:02:38 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/11/10 00:21:51 by ade-garr         ###   ########.fr       */
+/*   Updated: 2021/12/08 00:08:01 by adegarr          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ namespace ft {
 		}
 		vector(const vector& x) : _size(x._size), _capacity(x._capacity), _alloc(x._alloc) {
 			_head = _alloc.allocate(_capacity);
-			for (size_type i = 0; i < _capacity; i++)
-				_alloc.construct(&_head[i], x._head[i]);
+			for (size_type i = 0; i < _size; i++)
+				_alloc.construct(_head + i, x._head[i]);
 		}
 		~vector() {
 			for (size_type i = 0; i < _size; i++)
@@ -199,7 +199,7 @@ namespace ft {
 				reallocate(find_new_capacity(_size + 1));
 				position = begin() + start;
 			}
-			_alloc.construct(this->_head + _size, 0);
+			_alloc.construct(this->_head + _size, val);
 			_size++;
 			value_type val_bis = *position;
 			*position = val;
@@ -217,14 +217,11 @@ namespace ft {
 				position = begin() + start;
 			}
 			for (size_type i = 0; i < n ; i++) {
-				_alloc.construct(this->_head + _size + i, 0);
+				_alloc.construct(this->_head + _size + i, value);
 			}
 			_size = _size + n;
 			for (size_type i = 0; i < n; i++) {
 				right_shift(position);
-			}
-			for (size_type i = 0; i < n; i++) {
-				*(position + i) = value;
 			}
 		}
 		template <class InputIterator>
@@ -236,7 +233,7 @@ namespace ft {
 				position = begin() + start;
 			}
 			for (size_type i = 0; i < length ; i++) {
-				_alloc.construct(this->_head + _size + i, 0);
+				_alloc.construct(this->_head + _size + i, *first);
 			}
 			_size = _size + length;
 			iterator it = end() - 1;

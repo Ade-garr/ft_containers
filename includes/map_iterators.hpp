@@ -6,7 +6,7 @@
 /*   By: adegarr <adegarr@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 10:47:11 by ade-garr          #+#    #+#             */
-/*   Updated: 2021/12/03 12:41:14 by adegarr          ###   ########.fr       */
+/*   Updated: 2021/12/07 19:57:43 by adegarr          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ namespace ft {
         }
 		~map_iterator() {}
 		map_iterator &operator=(map_iterator const &rhs) {
-            if (*this != rhs)
+            if (this != &rhs)
 				this->ptr = rhs.ptr;
 			return (*this);
 		}
@@ -140,7 +140,7 @@ namespace ft {
 		map_const_iterator(map_iterator< value_type, Node > const &it) : ptr(it.getNode()) {}
 		~map_const_iterator() {}
 		map_const_iterator &operator=(map_const_iterator const &rhs) {
-            if (*this != rhs)
+            if (this != &rhs)
 				this->ptr = rhs.ptr;
 			return (*this);
 		}
