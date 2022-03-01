@@ -1,9 +1,9 @@
-### Welcome to my ft_containers repository 👋
+# 📌 ft_containers 📌
 
-⭐️ The objective of ft_containers is to implement the various container types of the C++ standard template library (coded in C++98).<br>
+The aim of this project is to re-implement some containers of the C++ standard library.<br>
 Containers implemented : vector, stack and map.
 
-## 💡 Usage
+## 🔑 How to
 
 Two mains are included, one to test all the functionnalities, one to test performances.
 ```
